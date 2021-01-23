@@ -33,9 +33,11 @@ class _Excercise_PageState extends State<Excercise_Page> {
   Stream<StepCount> _stepCountStream;
   Stream<PedestrianStatus> _pedestrianStatusStream;
   String _status = '?', _steps = '?';
-  double _numerox;
+
   double _kmx;
   double _burnedx;
+  int step_current = 0;
+  int steps_before = 0;
 
   void changeTimerStatus(){
     if (isTimerStart){
@@ -60,7 +62,8 @@ class _Excercise_PageState extends State<Excercise_Page> {
                 tooslowText = 'Слишком медленно';
               }
               setState(() {
-                currentDistance = currentDistance + getDistance(3.7, 4.2);
+                // currentDistance = currentDistance + getDistance(3.7, 4.2);
+                currentDistance = currentDistance + (step_current * 78)/100000;
                 counter++;
               });
             }
@@ -133,7 +136,8 @@ class _Excercise_PageState extends State<Excercise_Page> {
   void onStepCount(StepCount event) {
     print(event);
     setState(() {
-      _steps = event.steps.toString();
+      step_current = event.steps - steps_before;
+      steps_before = event.steps;
     });
   }
 
